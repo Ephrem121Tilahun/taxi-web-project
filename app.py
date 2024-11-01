@@ -121,7 +121,6 @@ class Base(DeclarativeBase):
     pass
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DB_URI", "sqlite:///posts.db")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(model_class=Base)
 db.init_app(app)
 
@@ -228,7 +227,7 @@ def send_emergency_message():
         to=your_phone_number
     )
 
-    return jsonify({'status': 'Emergency message sent successfully!'}), 500
+    return jsonify({'status': 'Emergency message sent successfully!'}), 200
 
 
 
