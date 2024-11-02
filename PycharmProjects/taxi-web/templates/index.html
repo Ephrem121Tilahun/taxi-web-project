@@ -1,0 +1,316 @@
+{% include "header.html" %}
+
+<header>
+    <div class="hero">
+    <div class="titles">
+<h1 id="abay">Abay</h1>
+
+</div>
+  </div>
+
+</header>
+
+<!-----main ifo-->
+ <div class="container-1">
+        <!-- Attractive "Book Now" Button -->
+        <a href="/booking" class="book-now-btn">Book Now</a>
+    </div>
+
+ <div class="emergency-container" id="eme">
+<div>
+     <input type="tel" id="customMessage" placeholder="Enter phone number" style="margin-bottom: 40px, font-weight: bold" />
+</div>
+    <button id="emergency-button" onclick="sendEmergencyMessage()">Emergency</button>
+    <p class="emergency-message" id="emergency-message"></p>
+     <div id="status"></div>
+</div>
+<div class="email">
+    <a href="mailto:your-email@gmail.com?subject=Contact%20Us&body=Hello,%20I%20would%20like%20to%20know%20more%20about%20your%20services.">Email Us</a>
+</div>
+
+
+
+
+
+<!-- Services Section -->
+<section class="hero1" id="home">
+        <div class="hero-overlay">
+            <h2>Your Ride, Your Way!</h2>
+            <p>Fast, reliable, and safe <span style="color:red">Limousine services</span> at your fingertips.</p>
+            <div class="icons">🚗</div>
+        </div>
+    </section>
+
+
+  <div id="services" class="sections section-yellow">
+    <h2>Our Services</h2>
+    <div class="cards">
+      <div class="icons">🚗</div>
+      <h3>Fast and Reliable</h3>
+      <p>Get where you need to go, quickly and safely.</p>
+    </div>
+    <div class="cards">
+      <div class="icons">💼</div>
+      <h3>Corporate Rides</h3>
+      <p>Reliable transportation for your business needs.</p>
+    </div>
+    <div class="cards">
+      <div class="icons">🏆</div>
+      <h3>Experience Dri</h3>
+      <p>Professional drivers to ensure a smooth journey.</p>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<br>
+
+<!--live map-->
+
+
+
+<div class="map-body">
+    <h1 class="hh">Live <span style="color: #ff8c00">Taxi</span> Tracking</h1>
+    <div id="map-txi"></div>
+    <div id="coordinates">Latitude: N/A, Longitude: N/A</div> <!-- Display for coordinates -->
+    <div id="taxi_status" class="taxi-status"></div>
+</div>
+
+<br>
+
+
+
+
+<!----service pic-->
+<section class="features" id="features">
+        <h2>Our Amazing Features</h2>
+        <div class="feature-grid">
+            <div class="feature">
+                <h3>Live Tracking</h3>
+                <p>Track your taxi in real-time with our advanced GPS system.</p>
+            </div>
+            <div class="feature">
+                <h3>Instant Booking</h3>
+                <p>Book your ride instantly through our user-friendly app.</p>
+            </div>
+            <div class="feature">
+                <h3>24/7 Service</h3>
+                <p>We’re here for you anytime, day or night!</p>
+            </div>
+        </div>
+    </section>
+
+
+<br>
+
+
+
+<!--testimonial-->
+<div class="testimonial-carousel">
+        <div class="testimonial active">
+            <p>"Great service, always on time!"</p>
+            <h4>- John D.</h4>
+        </div>
+        <div class="testimonial">
+            <p>"Professional and reliable drivers."</p>
+            <h4>- Sarah L.</h4>
+        </div>
+        <div class="testimonial">
+            <p>"Best limo experience ever!"</p>
+            <h4>- Mike T.</h4>
+        </div>
+    </div>
+
+
+<br><br>
+
+<!---- feed back-->
+<section id="feed">
+<div class="feedback-container">
+        <h2>Ride Feedback</h2>
+
+        <!-- Feedback Form -->
+        <form action="{{ url_for('submit_feedback') }}" method="POST" class="feedback-form">
+            <label for="comments">Your Comments:</label>
+            <textarea id="comments" name="comments" placeholder="Share your experience..."></textarea>
+
+            <label for="rating">Rate your ride:</label>
+            <div class="star-rating">
+                <input type="radio" id="star5" name="rating" value="5" /><label for="star5" title="5 stars">★</label>
+                <input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="4 stars">★</label>
+                <input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="3 stars">★</label>
+                <input type="radio" id="star2" name="rating" value="2" /><label for="star2" title="2 stars">★</label>
+                <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="1 star">★</label>
+            </div>
+
+            <button type="submit" class="submit-btn">Submit Feedback</button>
+        </form>
+
+        <!-- Display Feedback Comments -->
+        <div class="feedback-comments">
+            <h3>Feedback Comments</h3>
+            {% for feedback in feedbacks %}
+            <div class="feedback-card">
+                <p class="feedback-rating">Rating: {{ feedback.rating }} ★</p>
+                <p class="feedback-comment">{{ feedback.comment }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+
+
+
+
+
+
+
+<!--comm-->
+
+
+
+
+
+<!-- Main Content-->
+<script>
+        document.getElementById('callButton').addEventListener('click', function() {
+            fetch('/make_call', {
+                method: 'POST'
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                alert(data.message);
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    </script>
+
+ <script>
+        function sendEmergencyMessage() {
+            const customMessage = document.getElementById('customMessage').value;
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(position => {
+                    const latitude = position.coords.latitude;
+                    const longitude = position.coords.longitude;
+
+                    // Send location and custom message to the Flask backend
+                    fetch('/send-emergency-message', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ latitude, longitude, customMessage })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById('status').textContent = data.status;  // Display status message
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        document.getElementById('status').textContent = 'Failed to send message. Please try again.';
+                    });
+                }, () => {
+                    document.getElementById('status').textContent = "Unable to retrieve location.";
+                });
+            } else {
+                document.getElementById('status').textContent = "Geolocation is not supported by this browser.";
+            }
+        }
+    </script>
+
+
+<!--live-map-->
+<script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        const socket = io();
+
+        // Initialize the map centered on Fort McMurray
+        const map = L.map('map-txi').setView([56.7268, -111.3871], 13); // Centered on Fort McMurray
+
+        // Add OpenStreetMap tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+        }).addTo(map);
+
+        // Object to hold the taxi markers
+        const taxiMarkers = {};
+        const coordinatesDisplay = document.getElementById('coordinates'); // Element to display coordinates
+
+        socket.on('update_location', (data) => {
+            for (const [taxiId, location] of Object.entries(data)) {
+                // Update or add taxi marker
+                if (taxiMarkers[taxiId]) {
+                    taxiMarkers[taxiId].setLatLng([location.lat, location.lng]);
+                } else {
+                    const marker = L.marker([location.lat, location.lng]).addTo(map);
+                    taxiMarkers[taxiId] = marker; // Store the marker
+                }
+                // Update the coordinates display
+                coordinatesDisplay.textContent = `Latitude: ${location.lat.toFixed(4)}, Longitude: ${location.lng.toFixed(4)}`;
+            }
+        });
+    </script>
+
+
+
+<!--testemation-->
+<script>
+        // Hero text animation on load
+        window.addEventListener("DOMContentLoaded", function () {
+            document.querySelector(".hero-text").classList.add("visible");
+        });
+
+        // Testimonial Carousel
+        let testimonials = document.querySelectorAll(".testimonial");
+        let currentTestimonial = 0;
+
+        function showNextTestimonial() {
+            testimonials[currentTestimonial].classList.remove("active");
+            currentTestimonial = (currentTestimonial + 1) % testimonials.length;
+            testimonials[currentTestimonial].classList.add("active");
+        }
+
+        setInterval(showNextTestimonial, 3000); // Change every 3 seconds
+    </script>
+
+
+
+
+ <script>document.addEventListener('scroll', () => {
+    const features = document.querySelectorAll('.feature');
+    const scrollPosition = window.scrollY;
+
+    features.forEach(feature => {
+        const featurePosition = feature.getBoundingClientRect().top + scrollPosition;
+        const windowHeight = window.innerHeight;
+
+        if (scrollPosition > featurePosition - windowHeight + 100) {
+            feature.style.transform = 'translateY(0)';
+            feature.style.opacity = '1';
+        } else {
+            feature.style.transform = 'translateY(50px)';
+            feature.style.opacity = '0';
+        }
+    });
+});
+</script>
+
+
+
+{% include "footer.html" %}

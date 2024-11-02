@@ -1,0 +1,129 @@
+{% include "header.html" %}
+
+<!-- Page Header-->
+<header
+  class="masthead"
+  style="background-image: url('../static/assets/img/taxi10.jpg')"
+>
+
+  <div class="container position-relative px-4 px-lg-5" >
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+      <div class="col-md-10 col-lg-8 col-xl-7">
+        <div class="page-heading">
+          {% if msg_sent: %}
+          <h1>Successfully sent your message</h1>
+          {% else: %}
+          <h1>Contact Me</h1>
+          {% endif %}
+          <span class="subheading">Have questions? I have answers.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+<!-- Main Content-->
+<main class="mb-4" id="ba-color">
+  <div class="container px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+      <div class="col-md-10 col-lg-8 col-xl-7">
+        <p style="font-weight: bold;">
+         Fill out the form below to send me a message and
+          I will get back to you as soon as possible!
+        </p>
+        <div class="my-5">
+          <!-- * * * * * * * * * * * * * * *-->
+          <!-- * * Simplified SB Contact Form for the Tutorial* *-->
+          <form
+            id="contactForm"
+            name="sentMessage"
+            action="{{ url_for('contact') }}"
+            method="post"
+          >
+            <div class="form-floating">
+              <input
+                class="form-control"
+                id="name"
+                name="name"
+                type="text"
+                placeholder="Enter your name..."
+                required
+              />
+              <label for="name"><strong>Name</strong></label>
+            </div>
+            <div class="form-floating">
+              <input
+                class="form-control"
+                id="email"
+                name="email"
+                type="email"
+                placeholder="Enter your email..."
+                required
+              />
+              <label for="email"><strong>Email address</strong></label>
+            </div>
+            <div class="form-floating">
+              <input
+                class="form-control"
+                id="phone"
+                name="phone"
+                type="tel"
+                placeholder="Enter your phone number..."
+                required
+              />
+              <label for="phone"><strong>Phone Number</strong></label>
+            </div>
+            <div class="form-floating">
+              <textarea
+                class="form-control"
+                id="message"
+                name="message"
+                placeholder="Enter your message here..."
+                required
+                style="height: 12rem"
+              ></textarea>
+              <label for="message"><strong>Message</strong></label>
+            </div>
+            <br />
+            <button
+              class="btn btn-primary text-uppercase"
+              id="submitButton"
+              type="submit"
+              style="background-color: black"
+            >
+              Send
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--my address-->
+  <div class="mapp" style="background-color: black">
+  <div class="contact-container" style="background-color: #ffcc00">
+    <h1 id="cont">Contact Us</h1>
+
+    <div class="contact-info">
+        <p><strong>Address:</strong> Shared route from (56.7528007,-111.4277830) to Eagle Ridge</p>
+        <p><strong>Phone:</strong>+1 780 972 2321</p>
+        <p><strong>Email:</strong>mebratayalew77@gmail.com</p>
+        <p><strong>Working Hours:</strong> Monday to Monday, 9 AM - 5 PM</p>
+    </div>
+
+    <div class="map">
+      <h2>Find Us Here</h2>
+    <!-- Paste your iframe code here -->
+    <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3516653.202291128!2d-111.4277830!3d56.7528007!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x53f15a80d8f2b3b9%3A0xb0a2f4a8f027ff68!2sEagle%20Ridge%2C%20Fort%20McMurray%2C%20AB%20T9H%200A1%2C%20Canada!5e0!3m2!1sen!2sus!4v1632342017393!5m2!1sen!2sus"
+        width="400" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+    <a href="https://maps.app.goo.gl/FeseEYykuEtJKxy68?g_st=atm" target="_blank">View on Google Maps</a>
+
+    </div>
+
+  </div>
+
+</main>
+
+
+
+{% include "footer.html" %}
