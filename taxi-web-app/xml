@@ -1,0 +1,3 @@
+<Response>
+  <Say voice="alice">This is an emergency call. Please respond immediately!</Say>
+</Response>
